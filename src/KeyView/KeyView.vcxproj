@@ -150,14 +150,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EnumString.h" />
+    <ClInclude Include="KeyboardFigure.h" />
+    <ClInclude Include="KeyString.h" />
     <ClInclude Include="KeyView.h" />
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="MouseFigure.h" />
+    <ClInclude Include="MsgRecord.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EnumString.cpp" />
+    <ClCompile Include="KeyboardFigure.cpp" />
+    <ClCompile Include="KeyString.cpp" />
     <ClCompile Include="KeyView.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="MouseFigure.cpp" />
+    <ClCompile Include="MsgRecord.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

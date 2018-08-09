@@ -9,6 +9,7 @@
 
 #include <windows.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include <atlbase.h>
 #include <atlwin.h>
