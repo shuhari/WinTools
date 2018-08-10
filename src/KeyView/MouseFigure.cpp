@@ -5,7 +5,7 @@
 #define MARGIN 4
 #define BTN_WIDTH 40
 #define BTN_HEIGHT 40
-#define BODY_HEIGHT 80
+#define BODY_HEIGHT 160
 
 
 MouseFigure::MouseFigure() {
@@ -47,14 +47,15 @@ void MouseFigure::draw(CDCHandle dc, const CRect& rc) {
 	calcPos(rc, rcLeft, rcMid, rcRight, rcBody);
 	CPoint radius(4, 4);
 	
-	drawButton(dc, rcLeft, _leftDown);
-	drawButton(dc, rcMid, _middleDown);
-	drawButton(dc, rcRight, _rightDown);
+	drawButton(dc, rcLeft, _leftDown, L"L");
+	drawButton(dc, rcMid, _middleDown, L"M");
+	drawButton(dc, rcRight, _rightDown, L"R");
 	drawButton(dc, rcBody, false);
 }
 
 
-void MouseFigure::drawButton(CDCHandle dc, const CRect& rc, bool down) {
+void MouseFigure::drawButton(CDCHandle dc, CRect& rc, bool down,
+	PCWSTR szText/*=nullptr*/) {
 	CPoint radius(8, 8);
 	CPen pen = (HPEN)GetStockObject(BLACK_PEN);
 	CPen oldPen = dc.SelectPen(pen);
@@ -64,6 +65,10 @@ void MouseFigure::drawButton(CDCHandle dc, const CRect& rc, bool down) {
 
 	// dc.FillRect(rc, brush);
 	dc.RoundRect(rc, radius);
+
+	if (szText) {
+		dc.DrawText(szText, -1, rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	}
 
 	dc.SelectPen(oldPen);
 	dc.SelectBrush(oldBrush);

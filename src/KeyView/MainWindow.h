@@ -16,6 +16,11 @@ public:
 	BEGIN_MSG_MAP_EX(MainWindow)
 		MSG_WM_CREATE(onCreate)
 		MSG_WM_DESTROY(onDestroy)
+
+		COMMAND_ID_HANDLER_EX(ID_FILE_CLEAR, onFileClear)
+		COMMAND_ID_HANDLER_EX(ID_FILE_EXIT, onFileExit)
+		COMMAND_ID_HANDLER_EX(ID_HELP_ABOUT, onHelpAbout)
+
 		CHAIN_MSG_MAP(CFrameWindowImpl<MainWindow>)
 	END_MSG_MAP()
 
@@ -24,5 +29,9 @@ private:
 
 	int onCreate(LPCREATESTRUCT pCreateStruct);
 	void onDestroy();
+
+	void onFileClear(UINT, int, CWindow);
+	void onFileExit(UINT, int, CWindow);
+	void onHelpAbout(UINT, int, CWindow);
 };
 

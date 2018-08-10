@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AboutDialog.h" />
     <ClInclude Include="EnumString.h" />
     <ClInclude Include="KeyboardFigure.h" />
     <ClInclude Include="KeyString.h" />
@@ -157,10 +158,13 @@
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MouseFigure.h" />
     <ClInclude Include="MsgRecord.h" />
+    <ClInclude Include="Public.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="VersionReader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AboutDialog.cpp" />
     <ClCompile Include="EnumString.cpp" />
     <ClCompile Include="KeyboardFigure.cpp" />
     <ClCompile Include="KeyString.cpp" />
@@ -174,10 +178,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="VersionReader.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="KeyView.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\app.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

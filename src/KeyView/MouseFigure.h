@@ -18,6 +18,7 @@ private:
 
 	void calcPos(const CRect& rc, CRect& rcLeft,
 		CRect& rcMid, CRect& rcRight, CRect& rcBody);
-	void drawButton(CDCHandle dc, const CRect& rc, bool down);
+	void drawButton(CDCHandle dc, CRect& rc, bool down,
+		PCWSTR szText = nullptr);
 };
 

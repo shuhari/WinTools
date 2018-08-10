@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "MsgRecord.h"
 #include "KeyString.h"
 #include "MouseFigure.h"
@@ -14,6 +13,7 @@ public:
 	~KeyView();
 
 	HWND createView(HWND hwndParent);
+	void clear();
 
 	DECLARE_WND_CLASS(L"KeyView_KeyView")
 
@@ -30,6 +30,8 @@ public:
 		MSG_WM_KEYDOWN(onKeyDown)
 		MSG_WM_KEYUP(onKeyUp)
 		MSG_WM_CHAR(onChar)
+		MSG_WM_SETFOCUS(onSetFocus)
+		MSG_WM_KILLFOCUS(onKillFocus)
 	END_MSG_MAP()
 
 private:
@@ -40,6 +42,9 @@ private:
 	KeyString		_keyString;
 	MouseFigure		_mouseFigure;
 	KeyboardFigure	_keyboardFigure;
+	CBrush			_focusBrush;
+	CBrush			_unFocusBrush;
+	bool			_focused;
 
 	int  onCreate(LPCREATESTRUCT pCreateStruct);
 	void onPaint(CDCHandle dc);
@@ -53,6 +58,8 @@ private:
 	void onKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	void onKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags);
 	void onChar(TCHAR chChar, UINT nRepCnt, UINT nFlags);
+	void onSetFocus(CWindow wndOld);
+	void onKillFocus(CWindow wndFocus);
 
 	void refreshView(CDCHandle dc);
 	void refreshView();
@@ -60,5 +67,6 @@ private:
 	void recordMouseMsg(PCWSTR msg, UINT nFlags, CPoint pt);
 	void recordKeyMsg(PCWSTR msg, UINT nChar, UINT nRepCnt, UINT nFlags, bool isChar);
 	void calcPos(CRect& rcClient, CRect& rcMouse, CRect& rcKeyboard, CRect& rcText);
+	bool isPrintable(UINT nChar);
 };
 

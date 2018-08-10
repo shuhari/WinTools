@@ -19,7 +19,8 @@ MsgRecord& MsgRecord::operator=(const MsgRecord& src) {
 
 
 void MsgRecord::copyFrom(const MsgRecord& src) {
-	msg = src.msg;
+	type = src.type;
+	name = src.name;
 	flags = src.flags;
 	ch = src.ch;
 	coord = src.coord;
@@ -45,7 +46,7 @@ CString MsgRecord::separatorText() {
 
 CString MsgRecord::toString() {
 	WCHAR sz[ColumnCount + 1] = { 0 };
-	appendLeftAlignedText(sz, msg, OffsetFlags - OffsetMsg);
+	appendLeftAlignedText(sz, name, OffsetFlags - OffsetMsg);
 	appendLeftAlignedText(sz, flags, OffsetCh - OffsetFlags);
 	appendLeftAlignedText(sz, ch, OffsetCoord - OffsetCh);
 	appendLeftAlignedText(sz, coord, OffsetScan - OffsetCoord);
@@ -57,7 +58,7 @@ CString MsgRecord::toString() {
 void MsgRecord::appendLeftAlignedText(PWSTR dest, PCWSTR str, size_t fieldWidth) {
 	wcscat_s(dest, ColumnCount + 1, str);
 	if (fieldWidth > wcslen(str)) {
-		CString fill(' ', fieldWidth - wcslen(str));
+		CString fill(' ', (int)(fieldWidth - wcslen(str)));
 		wcscat_s(dest, ColumnCount + 1, fill);
 	}
 }
@@ -76,24 +77,6 @@ void MsgRecordVector::append(MsgRecord record) {
 		erase(begin());
 	}
 	push_back(record);
-}
-
-
-CString MsgRecordVector::toString() {
-	int rowCount = size() + 2;
-	int colWidth = MsgRecord::ColumnCount + 1;
-	int charCount = rowCount * colWidth + 1;
-	PWSTR psz = new WCHAR[charCount];
-	assert(psz);
-	memset(psz, 0, charCount * sizeof(WCHAR));
-	PWSTR pszNext = appendLine(psz, MsgRecord::headerText());
-	pszNext = appendLine(pszNext, MsgRecord::separatorText());
-	for (size_t i = 0; i < size(); i++) {
-		pszNext = appendLine(pszNext, at(i).toString());
-	}
-	CString result = psz;
-	delete[]psz;
-	return result;
 }
 
 

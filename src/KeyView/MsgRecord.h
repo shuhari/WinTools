@@ -5,11 +5,11 @@
 
 struct MsgRecord {
 public:
-	CString		msg;
-	CString		flags;
-	CString		ch;
-	CString		coord;
-	CString		scan;
+	enum MsgType {
+		MsgKeyboard = 1,
+		MsgMouse = 2,
+	};
+
 	enum {
 		ColumnCount = 80,
 		RowCount = 20,
@@ -19,6 +19,13 @@ public:
 		OffsetCoord = 50,
 		OffsetScan = 70,
 	};
+
+	MsgType		type;
+	CString		name;
+	CString		flags;
+	CString		ch;
+	CString		coord;
+	CString		scan;
 
 	MsgRecord();
 	MsgRecord(const MsgRecord&);
@@ -40,8 +47,6 @@ public:
 	~MsgRecordVector();
 
 	void append(MsgRecord record);
-
-	CString toString();
 
 private:
 	PWSTR appendLine(PWSTR szOffset, const CString& text);
