@@ -173,7 +173,7 @@ void KeyView::refreshView(CDCHandle dc) {
 	y += nLineHeight;
 	dc.TextOut(x, y, MsgRecord::separatorText());
 	y += nLineHeight;
-	for (int i = 0; i < _messages.size(); i++) {
+	for (size_t i = 0; i < _messages.size(); i++) {
 		MsgRecord& record = _messages.at(i);
 		if (record.type == MsgRecord::MsgKeyboard)
 			dc.SetTextColor(RGB(0, 128, 0));
