@@ -229,7 +229,7 @@ void KeyView::recordMouseMsg(PCWSTR msg, UINT nFlags, CPoint pt,
 		.addIf(nFlags, MK_MBUTTON, L"MMB")
 		.addIf(nFlags, MK_RBUTTON, L"RMB");
 	record.flags = mk.toString();
-	record.coord.Format(L"%d, %d", pt.x, pt.y);
+	record.coord.Format(L"%d,%d", pt.x, pt.y);
 	_messages.append(record);
 	_mouseFigure.setButton(nBtn, down);
 	

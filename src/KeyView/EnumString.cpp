@@ -23,7 +23,7 @@ CString EnumString::toString() {
 	for (size_t i = 0; i < _names.size(); i++) {
 		result += _names.at(i);
 		if (i < _names.size() - 1) {
-			result += L", ";
+			result += L",";
 		}
 	}
 	return result;

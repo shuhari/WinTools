@@ -15,8 +15,8 @@ public:
 		RowCount = 20,
 		OffsetMsg = 0,
 		OffsetFlags = 20,
-		OffsetCh = 30,
-		OffsetCoord = 50,
+		OffsetCh = 35,
+		OffsetCoord = 55,
 		OffsetScan = 70,
 	};
 

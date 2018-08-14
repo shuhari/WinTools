@@ -46,6 +46,7 @@ CString MsgRecord::separatorText() {
 
 CString MsgRecord::toString() {
 	WCHAR sz[ColumnCount + 1] = { 0 };
+	memset(sz, 0, (ColumnCount + 1) * sizeof(WCHAR));
 	appendLeftAlignedText(sz, name, OffsetFlags - OffsetMsg);
 	appendLeftAlignedText(sz, flags, OffsetCh - OffsetFlags);
 	appendLeftAlignedText(sz, ch, OffsetCoord - OffsetCh);
@@ -58,7 +59,7 @@ CString MsgRecord::toString() {
 void MsgRecord::appendLeftAlignedText(PWSTR dest, PCWSTR str, size_t fieldWidth) {
 	wcscat_s(dest, ColumnCount + 1, str);
 	if (fieldWidth > wcslen(str)) {
-		CString fill(' ', (int)(fieldWidth - wcslen(str)));
+		CString fill(L' ', (int)(fieldWidth - wcslen(str)));
 		wcscat_s(dest, ColumnCount + 1, fill);
 	}
 }
