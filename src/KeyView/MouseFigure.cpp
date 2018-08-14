@@ -54,6 +54,23 @@ void MouseFigure::draw(CDCHandle dc, const CRect& rc) {
 }
 
 
+void MouseFigure::drawVButton(CDCHandle dc, CRect& rc, UINT nBtn, bool down) {
+	CRect rcLeft, rcMid, rcRight, rcBody;
+	calcPos(rc, rcLeft, rcMid, rcRight, rcBody);
+	switch (nBtn) {
+	case VK_LBUTTON:
+		drawButton(dc, rcLeft, _leftDown, L"L");
+		break;
+	case VK_MBUTTON:
+		drawButton(dc, rcMid, _middleDown, L"M");
+		break;
+	case VK_RBUTTON:
+		drawButton(dc, rcRight, _rightDown, L"R");
+		break;
+	}
+}
+
+
 void MouseFigure::drawButton(CDCHandle dc, CRect& rc, bool down,
 	PCWSTR szText/*=nullptr*/) {
 	CPoint radius(8, 8);
@@ -63,7 +80,6 @@ void MouseFigure::drawButton(CDCHandle dc, CRect& rc, bool down,
 		(HBRUSH) GetStockObject(LTGRAY_BRUSH);
 	CBrush oldBrush = dc.SelectBrush(brush);
 
-	// dc.FillRect(rc, brush);
 	dc.RoundRect(rc, radius);
 
 	if (szText) {

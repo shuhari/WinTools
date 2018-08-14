@@ -182,16 +182,38 @@ void KeyboardFigure::draw(CDCHandle dc, CRect& rc) {
 
 	for (auto it = _buttons.begin(); it != _buttons.end(); it++) {
 		KeyButton& btn = it->second;
-		CRect rcBtn = btn.pos;
-		rcBtn.OffsetRect(rc.left, rc.top);
-		UINT uState = DFCS_BUTTONPUSH;
-		if (btn.down)
-			uState |= DFCS_PUSHED;
-		dc.DrawFrameControl(rcBtn, DFC_BUTTON, uState);
-		CRect rcText = rcBtn;
-		rcText.DeflateRect(4, 4);
-		dc.DrawText(btn.text, -1, rcText, DT_SINGLELINE | DT_LEFT | DT_TOP);
+		drawKey(dc, rc, btn);
 	}
+}
+
+
+void KeyboardFigure::drawKey(CDCHandle dc, CRect& rc, UINT nChar, bool down) {
+	std::vector<UINT> vks;
+	if (isMultiKey(nChar, vks)) {
+		for (UINT vk : vks) {
+			drawKey(dc, rc, vk, down);
+		}
+	}
+	else {
+		auto it = _buttons.find(nChar);
+		if (it != _buttons.end()) {
+			drawKey(dc, rc, it->second);
+		}
+	}
+}
+
+
+void KeyboardFigure::drawKey(CDCHandle dc, CRect& rc, KeyButton& btn) {
+	CRect rcBtn = btn.pos;
+	rcBtn.OffsetRect(rc.left, rc.top);
+	UINT uState = DFCS_BUTTONPUSH;
+	if (btn.down)
+		uState |= DFCS_PUSHED;
+	dc.DrawFrameControl(rcBtn, DFC_BUTTON, uState);
+	CRect rcText = rcBtn;
+	rcText.DeflateRect(4, 4);
+	dc.DrawText(btn.text, -1, rcText, DT_SINGLELINE | DT_LEFT | DT_TOP);
+
 }
 
 

@@ -10,6 +10,7 @@ public:
 	void draw(CDCHandle dc, const CRect& rc);
 
 	void setButton(UINT nBtn, bool down);
+	void drawVButton(CDCHandle dc, CRect& rc, UINT nBtn, bool down);
 
 private:
 	bool _leftDown;

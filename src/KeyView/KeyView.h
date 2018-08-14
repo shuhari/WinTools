@@ -64,9 +64,12 @@ private:
 	void refreshView(CDCHandle dc);
 	void refreshView();
 	void recordMsg(PCWSTR msg);
-	void recordMouseMsg(PCWSTR msg, UINT nFlags, CPoint pt);
-	void recordKeyMsg(PCWSTR msg, UINT nChar, UINT nRepCnt, UINT nFlags, bool isChar);
+	void recordMouseMsg(PCWSTR msg, UINT nFlags, CPoint pt, UINT nBtn, bool down);
+	void recordKeyMsg(PCWSTR msg, UINT nChar, UINT nRepCnt, UINT nFlags, bool isChar, bool down);
 	void calcPos(CRect& rcClient, CRect& rcMouse, CRect& rcKeyboard, CRect& rcText);
 	bool isPrintable(UINT nChar);
+	void drawText(CDCHandle dc, const CRect& rcText);
+	void preDraw(CDCHandle dc);
+	void postDraw(CDCHandle dc);
 };
 

@@ -64,62 +64,55 @@ void KeyView::onPaint(CDCHandle) {
 
 
 void KeyView::onLButtonDown(UINT nFlags, CPoint pt) {
-	_mouseFigure.setButton(VK_LBUTTON, true);
-	recordMouseMsg(L"WM_LBUTTONDOWN", nFlags, pt);
+	recordMouseMsg(L"WM_LBUTTONDOWN", nFlags, pt, VK_LBUTTON, true);
 	SetMsgHandled(TRUE);
 }
 
 
 void KeyView::onLButtonUp(UINT nFlags, CPoint pt) {
-	_mouseFigure.setButton(VK_LBUTTON, false);
-	recordMouseMsg(L"WM_LBUTTONUP", nFlags, pt);
+	recordMouseMsg(L"WM_LBUTTONUP", nFlags, pt, VK_LBUTTON, false);
 	SetMsgHandled(TRUE);
 }
 
 
 void KeyView::onMButtonDown(UINT nFlags, CPoint pt) {
-	_mouseFigure.setButton(VK_MBUTTON, true);
-	recordMouseMsg(L"WM_MBUTTONDOWN", nFlags, pt);
+	recordMouseMsg(L"WM_MBUTTONDOWN", nFlags, pt, VK_MBUTTON, true);
 	SetMsgHandled(TRUE);
 }
 
 
 void KeyView::onMButtonUp(UINT nFlags, CPoint pt) {
-	_mouseFigure.setButton(VK_MBUTTON, false);
-	recordMouseMsg(L"WM_MBUTTONUP", nFlags, pt);
+	recordMouseMsg(L"WM_MBUTTONUP", nFlags, pt, VK_MBUTTON, false);
 	SetMsgHandled(TRUE);
 }
 
 
 void KeyView::onRButtonDown(UINT nFlags, CPoint pt) {
-	_mouseFigure.setButton(VK_RBUTTON, true);
-	recordMouseMsg(L"WM_RBUTTONDOWN", nFlags, pt);
+	recordMouseMsg(L"WM_RBUTTONDOWN", nFlags, pt, VK_RBUTTON, true);
 	SetMsgHandled(TRUE);
 }
 
 
 void KeyView::onRButtonUp(UINT nFlags, CPoint pt) {
-	_mouseFigure.setButton(VK_RBUTTON, false);
-	recordMouseMsg(L"WM_RBUTTONUP", nFlags, pt);
+	recordMouseMsg(L"WM_RBUTTONUP", nFlags, pt, VK_RBUTTON, false);
 	SetMsgHandled(TRUE);
 }
 
 
 void KeyView::onKeyDown(UINT nChar, UINT nRepCount, UINT nFlags) {
-	_keyboardFigure.setKey(nChar, true);
-	recordKeyMsg(L"WM_KEYDOWN", nChar, nRepCount, nFlags, false);
+	recordKeyMsg(L"WM_KEYDOWN", nChar, nRepCount, nFlags, false, true);
+	SetMsgHandled(TRUE);
 }
 
 
 void KeyView::onKeyUp(UINT nChar, UINT nRepCount, UINT nFlags) {
-	_keyboardFigure.setKey(nChar, false);
-	recordKeyMsg(L"WM_KEYUP", nChar, nRepCount, nFlags, false);
+	recordKeyMsg(L"WM_KEYUP", nChar, nRepCount, nFlags, false, false);
 	SetMsgHandled(TRUE);
 }
 
 
 void KeyView::onChar(TCHAR chChar, UINT nRepCount, UINT nFlags) {
-	recordKeyMsg(L"WM_CHAR", chChar, nRepCount, nFlags, true);
+	recordKeyMsg(L"WM_CHAR", chChar, nRepCount, nFlags, true, false);
 	SetMsgHandled(TRUE);
 }
 
@@ -156,17 +149,35 @@ void KeyView::refreshView(CDCHandle dc) {
 	
 	CRect rcClient, rcMouse, rcKeyboard, rcText;
 	calcPos(rcClient, rcMouse, rcKeyboard, rcText);
-	int nCharWidth = _tm.tmAveCharWidth;
-	int nLineHeight = _tm.tmHeight + _tm.tmExternalLeading;
 
-	int nSaveDC = dc.SaveDC();
-	dc.SetBkMode(TRANSPARENT);
-	dc.SelectFont(_font);
+	preDraw(dc);
 
 	dc.FillRect(rcClient, _focused ? _focusBrush : _unFocusBrush);
 
 	_mouseFigure.draw(dc, rcMouse);
 	_keyboardFigure.draw(dc, rcKeyboard);
+	drawText(dc, rcText);
+
+	postDraw(dc);
+}
+
+
+void KeyView::preDraw(CDCHandle dc) {
+	dc.SaveDC();
+	dc.SetBkMode(TRANSPARENT);
+	dc.SelectFont(_font);
+}
+
+
+void KeyView::postDraw(CDCHandle dc) {
+	dc.RestoreDC(-1);
+}
+
+
+void KeyView::drawText(CDCHandle dc, const CRect& rcText) {
+	int nCharWidth = _tm.tmAveCharWidth;
+	int nLineHeight = _tm.tmHeight + _tm.tmExternalLeading;
+	COLORREF currTextColor = dc.GetTextColor();
 
 	int x = rcText.left, y = rcText.top;
 	dc.TextOut(x, y, MsgRecord::headerText());
@@ -174,6 +185,8 @@ void KeyView::refreshView(CDCHandle dc) {
 	dc.TextOut(x, y, MsgRecord::separatorText());
 	y += nLineHeight;
 	for (size_t i = 0; i < _messages.size(); i++) {
+		CRect rcLine(x, y, x + nCharWidth * MsgRecord::ColumnCount, y + nLineHeight);
+		dc.FillRect(rcLine, _focused ? _focusBrush : _unFocusBrush);
 		MsgRecord& record = _messages.at(i);
 		if (record.type == MsgRecord::MsgKeyboard)
 			dc.SetTextColor(RGB(0, 128, 0));
@@ -183,7 +196,7 @@ void KeyView::refreshView(CDCHandle dc) {
 		y += nLineHeight;
 	}
 
-	dc.RestoreDC(nSaveDC);
+	dc.SetTextColor(currTextColor);
 }
 
 
@@ -202,7 +215,8 @@ void KeyView::recordMsg(PCWSTR msg) {
 }
 
 
-void KeyView::recordMouseMsg(PCWSTR msg, UINT nFlags, CPoint pt) {
+void KeyView::recordMouseMsg(PCWSTR msg, UINT nFlags, CPoint pt,
+	UINT nBtn, bool down) {
 	MsgRecord record;
 	record.type = MsgRecord::MsgMouse;
 	record.name = msg;
@@ -217,7 +231,18 @@ void KeyView::recordMouseMsg(PCWSTR msg, UINT nFlags, CPoint pt) {
 	record.flags = mk.toString();
 	record.coord.Format(L"%d, %d", pt.x, pt.y);
 	_messages.append(record);
-	refreshView();
+	_mouseFigure.setButton(nBtn, down);
+	
+	CRect rcClient, rcText, rcKeyboard, rcMouse;
+	calcPos(rcClient, rcMouse, rcKeyboard, rcText);
+	CDCHandle dc = GetDC();
+	preDraw(dc);
+	drawText(dc, rcText);
+	_mouseFigure.setButton(nBtn, down);
+	_mouseFigure.drawVButton(dc, rcMouse, nBtn, down);
+	postDraw(dc);
+	ReleaseDC(dc);
+
 }
 
 
@@ -233,7 +258,7 @@ bool KeyView::isPrintable(UINT nChar) {
 
 
 void KeyView::recordKeyMsg(PCWSTR msg, UINT nChar, UINT nRepCnt, 
-	UINT nFlags, bool isChar) {
+	UINT nFlags, bool isChar, bool down) {
 	MsgRecord record;
 	record.type = MsgRecord::MsgKeyboard;
 	record.name = msg;
@@ -249,8 +274,18 @@ void KeyView::recordKeyMsg(PCWSTR msg, UINT nChar, UINT nRepCnt,
 	}
 	record.scan.Format(L"0x%02X", (nFlags & 0xFF));
 	_messages.append(record);
-	refreshView();
-	CDCHandle dc;
+
+	CRect rcClient, rcText, rcKeyboard, rcMouse;
+	calcPos(rcClient, rcMouse, rcKeyboard, rcText);
+	CDCHandle dc = GetDC();
+	preDraw(dc);
+	drawText(dc, rcText);
+	if (!isChar) {
+		_keyboardFigure.setKey(nChar, down);
+		_keyboardFigure.drawKey(dc, rcKeyboard, nChar, down);
+	}
+	postDraw(dc);
+	ReleaseDC(dc);
 }
 
 
@@ -270,3 +305,4 @@ void KeyView::clear() {
 	_messages.clear();
 	refreshView();
 }
+

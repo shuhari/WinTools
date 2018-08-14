@@ -28,6 +28,7 @@ public:
 
 	CSize size();
 	void draw(CDCHandle dc, CRect& rc);
+	void drawKey(CDCHandle dc, CRect& rc, UINT nChar, bool down);
 	void setKey(UINT nKey, bool down);
 
 private:
@@ -35,5 +36,6 @@ private:
 
 	void define(UINT vk, PCWSTR text, int left, int top, int right, int bottom);
 	bool isMultiKey(UINT nKey, std::vector<UINT>& keys);
+	void drawKey(CDCHandle dc, CRect& rc, KeyButton& btn);
 };
 
