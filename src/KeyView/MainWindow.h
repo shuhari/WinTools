@@ -5,13 +5,19 @@
 #include "KeyView.h"
 
 
-class MainWindow : public CFrameWindowImpl<MainWindow, CWindow, CFrameWinTraits>
+class MainWindow : public CFrameWindowImpl<MainWindow>,
+	public CUpdateUI<MainWindow>,
+	public CMessageFilter,
+	public CIdleHandler
 {
 public:
 	MainWindow();
 	~MainWindow();
 
 	DECLARE_FRAME_WND_CLASS(_T("KeyView_MainWindow"), IDR_MAINFRAME)
+
+	BEGIN_UPDATE_UI_MAP(MainWindow)
+	END_UPDATE_UI_MAP()
 
 	BEGIN_MSG_MAP_EX(MainWindow)
 		MSG_WM_CREATE(onCreate)
@@ -21,8 +27,12 @@ public:
 		COMMAND_ID_HANDLER_EX(ID_FILE_EXIT, onFileExit)
 		COMMAND_ID_HANDLER_EX(ID_HELP_ABOUT, onHelpAbout)
 
+		CHAIN_MSG_MAP(CUpdateUI<MainWindow>)
 		CHAIN_MSG_MAP(CFrameWindowImpl<MainWindow>)
 	END_MSG_MAP()
+
+	BOOL PreTranslateMessage(MSG* pMsg);
+	BOOL OnIdle();
 
 private:
 	KeyView			_view;

@@ -13,17 +13,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR szCmdLin
 
 	int nRet = 0;
 	{
+		CMessageLoop msgLoop;
+		_Module.AddMessageLoop(&msgLoop);
+
 		MainWindow mainWin;
 		if (!mainWin.CreateEx())
 			return -1;
 		mainWin.ShowWindow(nCmdShow);
 		mainWin.UpdateWindow();
 
-		CMessageLoop msgLoop;
-		_Module.AddMessageLoop(&msgLoop);
-
 		nRet = msgLoop.Run();
-
 		_Module.RemoveMessageLoop();
 	}
 

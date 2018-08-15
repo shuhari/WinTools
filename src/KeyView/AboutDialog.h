@@ -14,6 +14,7 @@ public:
 
 	BEGIN_MSG_MAP_EX(AboutDialog)
 		MSG_WM_INITDIALOG(onInitDialog)
+		MSG_WM_DESTROY(onDestroy)
 
 		COMMAND_ID_HANDLER_EX(IDOK, onOk)
 		COMMAND_ID_HANDLER_EX(IDCANCEL, onCancel)
@@ -21,6 +22,7 @@ public:
 
 private:
 	BOOL onInitDialog(CWindow wndFocus, LPARAM lParam);
+	void onDestroy();
 
 	void onOk(UINT, int, CWindow);
 	void onCancel(UINT, int, CWindow);

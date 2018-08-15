@@ -33,6 +33,16 @@ BOOL AboutDialog::onInitDialog(CWindow wndFocus, LPARAM lParam) {
 }
 
 
+void AboutDialog::onDestroy() {
+	CStatic lblIcon = GetDlgItem(IDS_APPICON);
+	HICON hIcon = lblIcon.GetIcon();
+	lblIcon.SetIcon(NULL);
+	if (hIcon)
+		DeleteObject(hIcon);
+	SetMsgHandled(FALSE);
+}
+
+
 void AboutDialog::onOk(UINT, int, CWindow) {
 	EndDialog(IDOK);
 }
