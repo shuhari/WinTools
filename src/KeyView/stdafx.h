@@ -18,4 +18,5 @@ extern CAppModule _Module;
 #include <atlframe.h>
 #include <atlmisc.h>
 #include <atlcrack.h>
+#include <atlctrls.h>
 
