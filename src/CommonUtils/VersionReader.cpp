@@ -22,8 +22,8 @@ bool VersionReader::read(PCWSTR szPath, VersionInfo& version) {
 			wsprintf(langName, L"%04X%04X", wLanguage, wCodePage);
 
 			version.CompanyName = queryString(pVersion, langName, L"CompanyName");
-			version.FileDescription =  queryString(pVersion, langName, L"FileDescription");
-			version.FileVersion =  queryString(pVersion, langName, L"FileVersion");
+			version.FileDescription = queryString(pVersion, langName, L"FileDescription");
+			version.FileVersion = queryString(pVersion, langName, L"FileVersion");
 			version.InternalName = queryString(pVersion, langName, L"InternalName");
 			version.LegalCopyright = queryString(pVersion, langName, L"LegalCopyright");
 			version.OriginalFilename = queryString(pVersion, langName, L"OriginalFilename");

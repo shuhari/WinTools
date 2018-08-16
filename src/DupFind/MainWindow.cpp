@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "MainWindow.h"
 #include "AboutDialog.h"
-#include "resource.h"
 
 
 MainWindow::MainWindow() {
@@ -18,34 +17,20 @@ BOOL MainWindow::PreTranslateMessage(MSG* pMsg) {
 
 
 BOOL MainWindow::OnIdle() {
-	BOOL capLock = GetKeyState(VK_CAPITAL) & 0x1;
-	BOOL numLock = GetKeyState(VK_NUMLOCK) & 0x1;
-	BOOL scrLock = GetKeyState(VK_SCROLL) & 0x1;
-	UISetText(1, capLock ? L"CAPS" : L"");
-	UISetText(2, numLock ? L"NUMLOCK" : L"");
-	UISetText(3, scrLock ? L"SCRLOCK" : L"");
-
 	UIUpdateToolBar();
 	UIUpdateStatusBar();
 	return FALSE;
 }
 
 
-int MainWindow::onCreate(LPCREATESTRUCT pCreateStruct) {
-
+int MainWindow::onCreate(LPCREATESTRUCT pcs) {
 	CreateSimpleToolBar(0, ATL_SIMPLE_TOOLBAR_STYLE | TBSTYLE_FLAT | TBSTYLE_LIST);
 
 	m_hWndStatusBar = _statusBar.Create(*this);
 	int panes[] = {
 		ID_DEFAULT_PANE,
-		ID_PANE_CAPS,
-		ID_PANE_NUMLOCK,
-		ID_PANE_SCROLLLOCK,
 	};
 	_statusBar.SetPanes(panes, _countof(panes));
-
-	m_hWndClient = _view.createView(m_hWnd);
-	_view.SetFocus();
 
 	CMessageLoop* pLoop = _Module.GetMessageLoop();
 	ATLASSERT(pLoop != nullptr);
@@ -56,9 +41,6 @@ int MainWindow::onCreate(LPCREATESTRUCT pCreateStruct) {
 	UIAddStatusBar(m_hWndStatusBar);
 	UISetCheck(ID_VIEW_TOOLBAR, true);
 	UISetCheck(ID_VIEW_STATUS_BAR, true);
-	UISetText(1, L"");
-	UISetText(2, L"");
-	UISetText(3, L"");
 
 	SetMsgHandled(FALSE);
 	return 0;
@@ -71,27 +53,22 @@ void MainWindow::onDestroy() {
 }
 
 
-void MainWindow::onFileClear(UINT uNotify, int nID, CWindow wnd) {
-	_view.clear();
-}
-
-
-void MainWindow::onFileExit(UINT uNotify, int nID, CWindow wnd) {
+void MainWindow::onFileExit(UINT, int, CWindow) {
 	PostMessage(WM_CLOSE);
 }
 
 
-void MainWindow::onViewToolbar(UINT uNotify, int nID, CWindow wnd) {
+void MainWindow::onViewToolbar(UINT, int, CWindow) {
 	switchBarVisible(m_hWndToolBar, ID_VIEW_TOOLBAR);
 }
 
 
-void MainWindow::onViewStatusBar(UINT uNotify, int nID, CWindow wnd) {
+void MainWindow::onViewStatusBar(UINT, int, CWindow) {
 	switchBarVisible(m_hWndStatusBar, ID_VIEW_STATUS_BAR);
 }
 
 
-void MainWindow::onHelpAbout(UINT uNotify, int nID, CWindow wnd) {
+void MainWindow::onHelpAbout(UINT, int, CWindow) {
 	AboutDialog dlg;
 	dlg.DoModal(m_hWnd);
 }

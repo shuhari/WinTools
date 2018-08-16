@@ -15,7 +15,7 @@ BOOL AboutDialog::onInitDialog(CWindow wndFocus, LPARAM lParam) {
 	CenterWindow();
 
 	HICON hIcon = LoadIcon(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDR_MAINFRAME));
-	CStatic lblIcon = GetDlgItem(IDS_APPICON);
+	CStatic lblIcon = GetDlgItem(IDC_APPICON);
 	lblIcon.SetWindowLong(GWL_STYLE, lblIcon.GetStyle() | SS_ICON);
 	lblIcon.SetIcon(hIcon);
 
@@ -26,15 +26,15 @@ BOOL AboutDialog::onInitDialog(CWindow wndFocus, LPARAM lParam) {
 	if (reader.read(szExePath, version)) {
 		CString strName;
 		strName.Format(L"%s %s", version.ProductName, version.ProductVersion);
-		SetDlgItemText(IDS_APP_NAME, strName);
-		SetDlgItemText(IDS_APP_COPYRIGHT, version.LegalCopyright);
+		SetDlgItemText(IDC_APPNAME, strName);
+		SetDlgItemText(IDC_COPYRIGHT, version.LegalCopyright);
 	}
 	return TRUE;
 }
 
 
 void AboutDialog::onDestroy() {
-	CStatic lblIcon = GetDlgItem(IDS_APPICON);
+	CStatic lblIcon = GetDlgItem(IDC_APPICON);
 	HICON hIcon = lblIcon.GetIcon();
 	lblIcon.SetIcon(NULL);
 	if (hIcon)
