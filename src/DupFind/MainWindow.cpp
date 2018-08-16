@@ -32,6 +32,17 @@ int MainWindow::onCreate(LPCREATESTRUCT pcs) {
 	};
 	_statusBar.SetPanes(panes, _countof(panes));
 
+	m_hWndClient = _splitter.Create(m_hWnd, rcDefault, NULL, 0, WS_EX_CLIENTEDGE);
+	_settingsPane.Create(_splitter, IDS_SETTINGS);
+	_settingsView.Create(_settingsPane, rcDefault);
+	_settingsPane.SetClient(_settingsView);
+
+	_resultView.Create(m_hWndClient, rcDefault);
+	_splitter.SetSplitterPanes(_settingsPane, _resultView, false);
+
+	UpdateLayout();
+	_splitter.SetSplitterPos(200);
+
 	CMessageLoop* pLoop = _Module.GetMessageLoop();
 	ATLASSERT(pLoop != nullptr);
 	pLoop->AddMessageFilter(this);
@@ -41,6 +52,7 @@ int MainWindow::onCreate(LPCREATESTRUCT pcs) {
 	UIAddStatusBar(m_hWndStatusBar);
 	UISetCheck(ID_VIEW_TOOLBAR, true);
 	UISetCheck(ID_VIEW_STATUS_BAR, true);
+	UISetCheck(ID_VIEW_SETTINGS, true);
 
 	SetMsgHandled(FALSE);
 	return 0;
@@ -65,6 +77,25 @@ void MainWindow::onViewToolbar(UINT, int, CWindow) {
 
 void MainWindow::onViewStatusBar(UINT, int, CWindow) {
 	switchBarVisible(m_hWndStatusBar, ID_VIEW_STATUS_BAR);
+}
+
+
+void MainWindow::onViewSettings(UINT, int, CWindow) {
+	int mode = _splitter.GetSinglePaneMode();
+	if (mode == SPLIT_PANE_NONE) {
+		_splitter.SetSinglePaneMode(SPLIT_PANE_RIGHT);
+		UISetCheck(ID_VIEW_SETTINGS, false);
+	}
+	else {
+		_splitter.SetSinglePaneMode(SPLIT_PANE_NONE);
+		UISetCheck(ID_VIEW_SETTINGS, true);
+	}
+}
+
+
+void MainWindow::onSettingsClose(UINT, int, CWindow) {
+	_splitter.SetSinglePaneMode(SPLIT_PANE_RIGHT);
+	UISetCheck(ID_VIEW_SETTINGS, false);
 }
 
 

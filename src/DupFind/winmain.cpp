@@ -8,7 +8,8 @@ CAppModule _Module;
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	PWSTR szCmdLine, int nCmdShow) {
 
-	AtlInitCommonControls(ICC_WIN95_CLASSES);
+	BOOL bRet = AtlInitCommonControls(ICC_WIN95_CLASSES);
+	ATLASSERT(bRet);
 	HRESULT hr = _Module.Init(NULL, hInstance);
 	ATLASSERT(SUCCEEDED(hr));
 
