@@ -8,6 +8,7 @@
 
 
 #include <windows.h>
+#include <shellapi.h>
 #include <stdlib.h>
 #include <assert.h>
 
@@ -19,4 +20,6 @@ extern CAppModule _Module;
 #include <atlmisc.h>
 #include <atlcrack.h>
 #include <atlctrls.h>
+#include <atlctrlx.h>
+#include <atlctrlw.h>
 
