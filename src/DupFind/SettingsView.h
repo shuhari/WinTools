@@ -1,10 +1,12 @@
 #pragma once
 
-class SettingsView : public CWindowImpl<SettingsView>
+#include "resource.h"
+
+class SettingsView : public CDialogImpl<SettingsView>
 {
 public:
-	DECLARE_WND_CLASS(L"DupFind_SettingsView")
-
+	enum { IDD = IDD_SETTINGS };
+	
 	SettingsView();
 	~SettingsView();
 

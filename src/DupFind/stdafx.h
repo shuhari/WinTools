@@ -23,3 +23,4 @@ extern CAppModule _Module;
 #include <atlctrlx.h>
 #include <atlctrlw.h>
 #include <atlsplit.h>
+#include <atldlgs.h>
