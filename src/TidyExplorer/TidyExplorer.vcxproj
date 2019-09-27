@@ -178,6 +178,9 @@
   <ItemGroup>
     <ResourceCompile Include="TidyExplorer.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\TidyExplorer.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

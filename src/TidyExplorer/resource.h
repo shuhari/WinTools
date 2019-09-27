@@ -3,7 +3,9 @@
 // Used by TidyExplorer.rc
 //
 #define IDD_MAIN                        101
+#define IDI_MAIN                        101
 #define IDD_DIALOG1                     103
+#define IDI_ICON1                       105
 #define IDC_APPLY                       111
 #define IDC_REFRESH                     112
 #define IDC_SELECT_ALL                  113
@@ -22,7 +24,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        105
+#define _APS_NEXT_RESOURCE_VALUE        106
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1005
 #define _APS_NEXT_SYMED_VALUE           101

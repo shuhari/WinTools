@@ -22,6 +22,10 @@ MainDialog::MainDialog(HWND hwnd)
 
 
 BOOL MainDialog::OnInitDialog(WPARAM wParam, LPARAM lParam) {
+    HMODULE hInstance = GetModuleHandle(NULL);
+    HICON hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MAIN));
+    SendMessage(_hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+    SendMessage(_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
     CenterOnScreen(_hwnd);
     RefreshStates();
     return TRUE;
