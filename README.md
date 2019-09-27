@@ -8,13 +8,13 @@ Show or hide misc items in system explorer, including Music/Video/Downloads/3D O
 
 Note: Requires run as administrator.
 
-![Screenshort](//raw.githubusercontent.com/shuhari/WinTools/master/screenshots/tidy-explorer.jpg)
+![Screenshort](https://raw.githubusercontent.com/shuhari/WinTools/master/screenshots/tidy-explorer.jpg)
 
 ## KeyView
 
 Inspect keyboard/mouse messages sent to window. Also apply to simulated messages (such as <code>mouse_event()</code> ).
 
-![Screenshot](//raw.githubusercontent.com/shuhari/WinTools/master/screenshots/keyview.jpg)
+![Screenshot](https://raw.githubusercontent.com/shuhari/WinTools/master/screenshots/keyview.jpg)
 
 
 ## Prerequirements
