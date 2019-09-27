@@ -2,11 +2,19 @@
 
 Misc development utility tools for windows.
 
-* KeyView
+## Tidy Explorer
 
-  Inspect keyboard/mouse messages sent to window. Also apply to simulated messages (such as <code>mouse_event()</code> ).
+Show or hide misc items in system explorer, including Music/Video/Downloads/3D Objects, etc.
 
-![Screenshot](https://raw.githubusercontent.com/shuhari/WinTools/master/screenshots/keyview.jpg)
+Note: Requires run as administrator.
+
+![Screenshort](//raw.githubusercontent.com/shuhari/WinTools/master/screenshots/tidy-explorer.jpg)
+
+## KeyView
+
+Inspect keyboard/mouse messages sent to window. Also apply to simulated messages (such as <code>mouse_event()</code> ).
+
+![Screenshot](//raw.githubusercontent.com/shuhari/WinTools/master/screenshots/keyview.jpg)
 
 
 ## Prerequirements
